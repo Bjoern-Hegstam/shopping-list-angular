@@ -10,9 +10,9 @@ import { ShoppingListComponent } from './shopping-list/shopping-list.component';
 import { ShoppingListsComponent } from './shopping-lists/shopping-lists.component';
 import { ItemTypesComponent } from './item-types/item-types.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { routing } from "./app.routing";
-import { ReactiveFormsModule } from "@angular/forms";
-import { HttpClientModule } from "@angular/common/http";
+import { routing } from './app.routing';
+import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [

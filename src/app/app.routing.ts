@@ -1,10 +1,10 @@
-import { RouterModule } from "@angular/router";
-import { SiteLayoutComponent } from "./site-layout/site-layout.component";
-import { ShoppingListsComponent } from "./shopping-lists/shopping-lists.component";
-import { ShoppingListComponent } from "./shopping-list/shopping-list.component";
-import { ItemTypesComponent } from "./item-types/item-types.component";
-import { LoginComponent } from "./login/login.component";
-import { PageNotFoundComponent } from "./page-not-found/page-not-found.component";
+import { RouterModule } from '@angular/router';
+import { SiteLayoutComponent } from './site-layout/site-layout.component';
+import { ShoppingListsComponent } from './shopping-lists/shopping-lists.component';
+import { ShoppingListComponent } from './shopping-list/shopping-list.component';
+import { ItemTypesComponent } from './item-types/item-types.component';
+import { LoginComponent } from './login/login.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 
 const routes = [
