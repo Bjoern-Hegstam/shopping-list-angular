@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from "../auth.service";
 
 @Component({
   selector: 'app-site-layout',
@@ -8,8 +9,8 @@ import { Component, OnInit } from '@angular/core';
 export class SiteLayoutComponent implements OnInit {
   userAuthenticated: boolean;
 
-  constructor() {
-    this.userAuthenticated = false;
+  constructor(private authService: AuthService) {
+    this.userAuthenticated = this.authService.isLoggedIn();
   }
 
   ngOnInit() {
