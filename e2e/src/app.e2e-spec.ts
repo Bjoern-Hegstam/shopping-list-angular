@@ -8,9 +8,9 @@ describe('workspace-project App', () => {
     page = new AppPage();
   });
 
-  it('should display welcome message', () => {
+  it('displays application name', () => {
     page.navigateTo();
-    expect(page.getTitleText()).toEqual('shopping-list-angular app is running!');
+    expect(page.getTitleText()).toEqual('shopping-list-spark');
   });
 
   afterEach(async () => {
