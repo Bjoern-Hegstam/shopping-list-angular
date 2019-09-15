@@ -12,6 +12,7 @@ import { ItemTypesComponent } from './item-types/item-types.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { routing } from "./app.routing";
 import { ReactiveFormsModule } from "@angular/forms";
+import { HttpClientModule } from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { ReactiveFormsModule } from "@angular/forms";
   imports: [
     BrowserModule,
     routing,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
