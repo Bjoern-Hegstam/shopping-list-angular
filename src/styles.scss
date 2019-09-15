@@ -1,0 +1,77 @@
+$header-height: 4rem;
+
+// Large screen layout
+$large-screen-content-width: 75rem;
+$large-screen-navigation-width: 15rem;
+
+// Small screen layout
+$small-screen-width-breakpoint: $large-screen-content-width + $large-screen-navigation-width;
+$small-screen-content-width: 90vw;
+$small-screen-navigation-height: 2rem;
+
+// Colors
+$border-color: #e7e7e7;
+$background-color: #f8f8f8;
+$item-selected-color: #97ec8d;
+
+$button-color-primary: #337ab7;
+$button-color-danger: #d83232;
+
+html {
+  font-size: 100%;
+}
+
+@media (max-width: $small-screen-width-breakpoint) {
+  html {
+    font-size: 200%;
+  }
+}
+
+body {
+  margin: 0;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+%base-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: white;
+  border: none;
+  font-size: 1rem;
+  font-weight: bolder;
+  padding: 15px;
+  border-radius: 5px;
+
+  user-select: none;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &:disabled {
+    background-color: #777777;
+  }
+}
+
+%button-primary {
+  @extend %base-button;
+  background-color: $button-color-primary;
+}
+
+%button-danger {
+  @extend %base-button;
+  background-color: $button-color-danger;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

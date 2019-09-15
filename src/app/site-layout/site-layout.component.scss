@@ -1,0 +1,74 @@
+@import "~src/styles";
+
+.app-layout {
+  width: 100vw;
+  height: 100vh;
+
+  display: grid;
+  grid-template-columns: $large-screen-navigation-width 1fr;
+  grid-template-rows: $header-height 1fr;
+  grid-template-areas:
+    "header header"
+    "navigation main-container";
+}
+
+app-header {
+  grid-area: header;
+}
+
+.app-navigation {
+  grid-area: navigation;
+}
+
+.main-container {
+  grid-area: main-container;
+  overflow: auto;
+
+  display: grid;
+  grid-template-columns: 1fr $large-screen-content-width 1fr;
+  grid-template-areas: ". main .";
+}
+
+main {
+  grid-area: main;
+}
+
+@media (max-width: $small-screen-width-breakpoint) {
+  .app-layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: $header-height 1fr;
+    grid-template-areas:
+      "header"
+      "main-container";
+  }
+
+  .main-container {
+    grid-template-columns: 1fr;
+    grid-template-areas: "main";
+
+    padding-top: 1rem;
+  }
+
+  .app-navigation {
+    display: none;
+  }
+
+  .user--authenticated {
+    &.app-layout {
+      grid-template-columns: 1fr;
+      grid-template-rows: $header-height $small-screen-navigation-height 1fr;
+      grid-template-areas:
+        "header"
+        "navigation"
+        "main-container";
+    }
+
+    .app-navigation {
+      display: unset;
+    }
+  }
+
+  main {
+    padding: 0 1vw;
+  }
+}
