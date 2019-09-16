@@ -6,6 +6,7 @@ import { ItemTypesComponent } from './item-types/item-types.component';
 import { LoginComponent } from './login/login.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { AuthGuard } from "./auth/auth.guard";
+import { AppRoute } from "./app-routes";
 
 const routes = [
   {
@@ -17,9 +18,9 @@ const routes = [
         path: '',
         canActivateChild: [AuthGuard],
         children: [
-          { path: 'lists', component: ShoppingListsComponent },
-          { path: 'lists/:listId', component: ShoppingListComponent },
-          { path: 'item-types', component: ItemTypesComponent },
+          { path: AppRoute.LISTS, component: ShoppingListsComponent },
+          { path: AppRoute.list(':listId'), component: ShoppingListComponent },
+          { path: AppRoute.ITEM_TYPES, component: ItemTypesComponent },
         ]
       }
     ],

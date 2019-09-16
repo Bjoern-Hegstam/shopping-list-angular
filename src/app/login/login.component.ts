@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { AuthService } from '../auth.service';
 import { Router } from "@angular/router";
+import { AppRoute } from "../app-routes";
 
 @Component({
   selector: 'app-login',
@@ -24,15 +25,14 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.authService.isLoggedIn()) {
-      this.router.navigate(['lists']);
+      this.router.navigate([AppRoute.LISTS]);
     }
   }
 
   onSubmit({ username, password }) {
-    console.log('Logging in');
     this.authService
       .login({ username, password })
-      .subscribe(() => this.router.navigate(['lists']));
+      .subscribe(() => this.router.navigate([AppRoute.LISTS]));
     this.loginForm.reset();
   }
 }

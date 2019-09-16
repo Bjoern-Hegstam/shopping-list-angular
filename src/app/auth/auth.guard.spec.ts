@@ -1,29 +1,38 @@
-import { TestBed, async, inject } from '@angular/core/testing';
+import { inject, TestBed } from '@angular/core/testing';
 
 import { AuthGuard } from './auth.guard';
-import { RouterMock } from "../../mocks/router.mock";
 import { Router } from "@angular/router";
-import { AuthServiceMock } from "../../mocks/auth.mock";
 import { AuthService } from "../auth.service";
 
-let authServiceMock: AuthServiceMock;
-let routerMock: RouterMock;
+let authServiceMock;
+let routerMock;
+let guard: AuthGuard;
 
 describe('AuthGuard', () => {
   beforeEach(() => {
-    authServiceMock = new AuthServiceMock();
-    routerMock = new RouterMock();
+    authServiceMock = jasmine.createSpyObj('AuthService', ['isLoggedIn']);
+    routerMock = jasmine.createSpyObj('Router', ['navigate']);
 
-    TestBed.configureTestingModule({
-      providers: [
-        AuthGuard,
-        { provide: AuthService, useValue: authServiceMock },
-        { provide: Router, useValue: routerMock },
-      ]
-    });
+    guard = new AuthGuard(authServiceMock, routerMock);
   });
 
-  it('should ...', inject([AuthGuard], (guard: AuthGuard) => {
-    expect(guard).toBeTruthy();
-  }));
+  describe('checkLogin', () => {
+    it('logged in user', () => {
+      authServiceMock.isLoggedIn.and.returnValue(true);
+
+      const canActivate: boolean = guard.canActivate(null, { url: 'redirect-url' });
+
+      expect(canActivate).toBe(true);
+    });
+
+    it('not logged in user', () => {
+      authServiceMock.isLoggedIn.and.returnValue(false);
+
+      const canActivate: boolean = guard.canActivate(null, { url: 'redirect-url' });
+
+      expect(canActivate).toBe(false);
+      expect(authServiceMock.redirectUrl).toBe('redirect-url');
+      expect(routerMock.navigate).toHaveBeenCalledWith(['/']);
+    });
+  });
 });
