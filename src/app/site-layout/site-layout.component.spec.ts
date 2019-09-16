@@ -3,8 +3,9 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { SiteLayoutComponent } from './site-layout.component';
 import { Component } from "@angular/core";
 import { AuthService } from "../auth.service";
+import { instance, mock } from "ts-mockito";
 
-let authServiceMock;
+let authServiceMock: AuthService;
 
 @Component({selector: 'app-header', template: ''})
 class HeaderStubComponent { }
@@ -20,7 +21,7 @@ describe('SiteLayoutComponent', () => {
   let fixture: ComponentFixture<SiteLayoutComponent>;
 
   beforeEach(async(() => {
-    authServiceMock = jasmine.createSpyObj('AuthService', ['isLoggedIn']);
+    authServiceMock = mock(AuthService);
 
     TestBed.configureTestingModule({
       declarations: [
@@ -29,7 +30,7 @@ describe('SiteLayoutComponent', () => {
         NavigationStubComponent,
         RouterOutletStubComponent
       ],
-      providers: [{ provide: AuthService, useValue: authServiceMock }]
+      providers: [{ provide: AuthService, useValue: instance(authServiceMock) }]
     })
     .compileComponents();
   }));
