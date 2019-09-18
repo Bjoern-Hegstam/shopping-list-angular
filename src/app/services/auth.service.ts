@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { environment } from "../environments/environment";
-import { tap } from "rxjs/operators";
+import { environment } from '../../environments/environment';
+import { tap } from 'rxjs/operators';
 
 class LoginData {
   username: string;

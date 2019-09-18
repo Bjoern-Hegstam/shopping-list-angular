@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { AuthService } from './auth.service';
-import { HttpClient } from "@angular/common/http";
+import { HttpClient } from '@angular/common/http';
 
 let httpClientMock: { post: jasmine.Spy };
 

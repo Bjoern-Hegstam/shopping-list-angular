@@ -1,10 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LoginComponent } from './login.component';
-import { ReactiveFormsModule } from "@angular/forms";
-import { AuthService } from "../auth.service";
-import { Router } from "@angular/router";
-import { anything, deepEqual, instance, mock, verify, when } from "ts-mockito";
+import { ReactiveFormsModule } from '@angular/forms';
+import { AuthService } from '../../../../services/auth.service';
+import { Router } from '@angular/router';
+import { anything, deepEqual, instance, mock, verify, when } from 'ts-mockito';
 
 let authServiceMock: AuthService;
 let routerMock: Router;

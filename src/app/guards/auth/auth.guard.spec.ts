@@ -1,9 +1,7 @@
-import { inject, TestBed } from '@angular/core/testing';
-
 import { AuthGuard } from './auth.guard';
-import { Router } from "@angular/router";
-import { AuthService } from "../auth.service";
-import { deepEqual, instance, mock, verify, when } from "ts-mockito";
+import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+import { deepEqual, instance, mock, verify, when } from 'ts-mockito';
 
 let authServiceMock: AuthService;
 let routerMock: Router;
