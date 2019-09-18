@@ -30,9 +30,14 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit({ username, password }) {
+    this.loginForm.disable();
     this.authService
       .login({ username, password })
-      .subscribe(() => this.router.navigate([AppRoute.LISTS]));
-    this.loginForm.reset();
+      .subscribe(
+        () => this.router.navigate([AppRoute.LISTS]),
+        () => {
+          this.loginForm.enable();
+        }
+      );
   }
 }
