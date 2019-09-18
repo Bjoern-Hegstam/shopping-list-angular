@@ -1,4 +1,6 @@
-# ShoppingListAngular
+# shopping-list-angular
+
+A re-implementation of the frontend for shopping-list-spark done for the purpose of learning Angular. 
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.2.
 
