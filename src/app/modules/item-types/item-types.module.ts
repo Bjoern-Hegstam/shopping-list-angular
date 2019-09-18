@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { ItemTypesComponent } from './components/item-types/item-types.component';
 import { RouterModule } from '@angular/router';
+import { AuthGuard } from '../../guards/auth/auth.guard';
 
-const routes = [{ path: '', component: ItemTypesComponent}];
+const routes = [{ path: '', canActivate: [AuthGuard], component: ItemTypesComponent }];
 
 @NgModule({
   declarations: [
