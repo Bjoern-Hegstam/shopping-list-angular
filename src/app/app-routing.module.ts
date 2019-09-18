@@ -1,6 +1,7 @@
 import { PreloadAllModules, RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { AppRoute } from './constants/app-routes';
+import { environment } from '../environments/environment';
 
 const routes = [
   {
@@ -25,7 +26,7 @@ const routes = [
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, {
-      enableTracing: true, // For debugging,
+      enableTracing: false, // For debugging,
       preloadingStrategy: PreloadAllModules,
     }),
   ],
