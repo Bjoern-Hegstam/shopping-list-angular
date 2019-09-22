@@ -4,6 +4,7 @@ import { Component } from '@angular/core';
 import { AuthService } from './services/auth.service';
 import { instance, mock } from 'ts-mockito';
 import { AppComponent } from './app.component';
+import { provideMockStore } from '@ngrx/store/testing';
 
 let authServiceMock: AuthService;
 
@@ -34,7 +35,14 @@ describe('AppComponent', () => {
         NavigationStubComponent,
         RouterOutletStubComponent
       ],
-      providers: [{ provide: AuthService, useValue: instance(authServiceMock) }]
+      providers: [
+        { provide: AuthService, useValue: instance(authServiceMock) },
+        provideMockStore({
+          initialState: {
+            auth: {},
+          }
+        }),
+      ]
     })
       .compileComponents();
   }));

@@ -3,10 +3,12 @@ import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AppRoute } from '../../../../constants/app-routes';
 import { select, Store } from '@ngrx/store';
-import { AuthStoreActions, AuthStoreSelectors, AuthStoreState, RootStoreState } from '../../../../root-store';
+import { AuthStoreActions, AuthStoreSelectors, AuthStoreState } from '../../../../root-store';
 import { Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { Logger } from '../../../../logger';
+import { Logger } from '../../../../util/logger';
+import { AuthService } from '../../../../services/auth.service';
+import { isValidToken } from '../../../../util/auth';
 
 @Component({
   selector: 'app-login',
@@ -15,13 +17,14 @@ import { Logger } from '../../../../logger';
 })
 export class LoginComponent implements OnInit, OnDestroy {
   private readonly logger = Logger.forComponent('LoginComponent');
-  loginForm;
-  subscriptions$: Subscription[];
+  private loginForm;
+  private subscriptions$: Subscription[];
 
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
-    private store$: Store<RootStoreState.State>,
+    private store$: Store<AuthStoreState.State>,
+    private authService: AuthService,
   ) {
     this.loginForm = this.formBuilder.group({
       username: '',
@@ -39,9 +42,15 @@ export class LoginComponent implements OnInit, OnDestroy {
               return;
             }
 
-            if (authState.isLoggedIn) {
+            if (isValidToken(authState.token)) {
               this.logger.debug('Logged in successfully');
-              this.router.navigate([AppRoute.LISTS]);
+              if (this.authService.redirectUrl) {
+                this.logger.debug(`Redirecting to ${this.authService.redirectUrl}`);
+                this.router.navigate([this.authService.redirectUrl]);
+              } else {
+                this.logger.debug(`Redirecting to [${AppRoute.LISTS}]`);
+                this.router.navigate([AppRoute.LISTS]);
+              }
             } else if (authState.loginError) {
               this.logger.debug('Failed to login');
               this.loginForm.enable();

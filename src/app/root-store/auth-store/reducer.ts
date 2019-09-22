@@ -11,7 +11,7 @@ const authReducer = createReducer(
   })),
   on(actions.loginSuccessful, (state, { token, user }: AuthenticationResult) => ({
     ...state,
-    token,
+    token: { token },
     user,
     loggingIn: false,
   })),

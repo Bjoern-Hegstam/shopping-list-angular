@@ -9,6 +9,6 @@ import { EffectsModule } from '@ngrx/effects';
     EffectsModule.forRoot([]),
 
     AuthStoreModule,
-  ]
+  ],
 })
 export class RootStoreModule {}

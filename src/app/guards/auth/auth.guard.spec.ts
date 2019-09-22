@@ -1,40 +1,67 @@
 import { AuthGuard } from './auth.guard';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { deepEqual, instance, mock, verify, when } from 'ts-mockito';
-
-let authServiceMock: AuthService;
-let routerMock: Router;
-let guard: AuthGuard;
+import { deepEqual, instance, mock, verify } from 'ts-mockito';
+import { TestBed } from '@angular/core/testing';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { Store } from '@ngrx/store';
+import { AuthStoreSelectors, AuthStoreState } from '../../root-store/auth-store';
+import { AppRoute } from '../../constants/app-routes';
 
 describe('AuthGuard', () => {
+  let authServiceMock: AuthService;
+  let routerMock: Router;
+  let guard: AuthGuard;
+
+  let store: MockStore<AuthStoreState.State>;
+  let authToken;
+
   beforeEach(() => {
     authServiceMock = mock(AuthService);
     routerMock = mock(Router);
 
-    guard = new AuthGuard(
-      instance(authServiceMock),
-      instance(routerMock)
-    );
+    TestBed.configureTestingModule({
+      providers: [
+        AuthGuard,
+        { provide: AuthService, useValue: instance(authServiceMock) },
+        { provide: Router, useValue: instance(routerMock) },
+        provideMockStore({
+          initialState: {
+            auth: {}
+          }
+        }),
+      ]
+    }).compileComponents();
+
+    store = TestBed.get(Store);
+    authToken = store.overrideSelector(AuthStoreSelectors.selectAuthToken, null);
+
+    guard = TestBed.get(AuthGuard);
   });
 
   describe('checkLogin', () => {
-    it('logged in user', () => {
-      when(authServiceMock.isLoggedIn()).thenReturn(true);
+    it('logged in user', async () => {
+      // given
+      authToken.setResult('Valid token');
 
-      const canActivate: boolean = guard.canActivate(null, { url: 'redirect-url' });
+      // when
+      const canActivate = await guard.canActivate(null, { url: 'redirect-url' }).toPromise();
 
+      // then
       expect(canActivate).toBe(true);
     });
 
-    it('not logged in user', () => {
-      when(authServiceMock.isLoggedIn()).thenReturn(false);
+    it('not logged in user', async () => {
+      // given
+      authToken.setResult(null);
 
-      const canActivate: boolean = guard.canActivate(null, { url: 'redirect-url' });
+      // when
+      const canActivate = await guard.canActivate(null, { url: 'redirect-url' }).toPromise();
 
+      // then
       expect(canActivate).toBe(false);
-      expect(instance(authServiceMock).redirectUrl).toBe('redirect-url');
-      verify(routerMock.navigate(deepEqual(['/']))).called();
+      expect(TestBed.get(AuthService).redirectUrl).toBe('redirect-url');
+      verify(routerMock.navigate(deepEqual([AppRoute.LOGIN]))).called();
     });
   });
 });

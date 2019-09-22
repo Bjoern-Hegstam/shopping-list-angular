@@ -3,6 +3,7 @@ import { select, Store } from '@ngrx/store';
 import { AuthStoreSelectors, RootStoreState } from './root-store';
 import { Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { isValidToken } from './util/auth';
 
 @Component({
   selector: 'app-root',
@@ -21,8 +22,8 @@ export class AppComponent implements OnInit, OnDestroy {
       this
         .store$
         .pipe(
-          select(AuthStoreSelectors.selectIsAuthenticated),
-          tap(state => this.userAuthenticated = state.isAuthenticated)
+          select(AuthStoreSelectors.selectAuthToken),
+          tap(token => this.userAuthenticated = isValidToken(token))
         )
         .subscribe(),
     ];

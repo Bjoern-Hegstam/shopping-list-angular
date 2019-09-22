@@ -6,6 +6,7 @@ import { AuthStoreSelectors, RootStoreState } from '../../root-store';
 import { map, take } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { AppRoute } from '../../constants/app-routes';
+import { isValidToken } from '../../util/auth';
 
 @Injectable()
 export class AuthGuard implements CanActivate, CanActivateChild {
@@ -28,16 +29,15 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     return this
       .store$
       .pipe(
-        select(AuthStoreSelectors.selectIsAuthenticated),
+        select(AuthStoreSelectors.selectAuthToken),
         take(1),
-        map(state => {
-          if (state.isAuthenticated) {
-            return true;
-          } else {
+        map(token => {
+          const isValid = isValidToken(token);
+          if (!isValid) {
             this.authService.redirectUrl = url; // Store the attempted URL for redirecting
             this.router.navigate([AppRoute.LOGIN]);
-            return false;
           }
+          return isValid;
         }),
       );
   }

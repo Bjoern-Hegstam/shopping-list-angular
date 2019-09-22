@@ -1,10 +1,14 @@
 export const stateKey = 'auth';
 
 export interface State {
-  token: string | null;
+  token: Token | null;
   user: User | null;
   loggingIn: boolean;
   loginError: string | null;
+}
+
+export interface Token {
+  token: string;
 }
 
 export const initialState: State = {
@@ -16,13 +20,9 @@ export const initialState: State = {
 };
 
 export interface LoginFlowState {
-  isLoggedIn: boolean;
+  token: Token | null;
   loggingIn: boolean;
   loginError: string | null;
-}
-
-export interface AuthenticationState {
-  isAuthenticated: boolean;
 }
 
 export class User {

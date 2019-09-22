@@ -1,24 +1,18 @@
-import { AuthenticationState, LoginFlowState, stateKey } from './state';
+import { LoginFlowState, State, stateKey } from './state';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
 
-export const selectLoginFlowState = (state): LoginFlowState => {
-  // createSelector not used to avoid memoization as token validity is time dependent
-  const authState = state[stateKey];
-  return ({
-    isLoggedIn: isValidToken(authState.token),
-    loggingIn: authState.loggingIn,
-    loginError: authState.loginError,
-  });
-};
+const selectAuthState = createFeatureSelector<State>(stateKey);
 
-export const selectIsAuthenticated = (state): AuthenticationState => {
-  // createSelector not used to avoid memoization as token validity is time dependent
-  const authState = state[stateKey];
-  return ({
-    isAuthenticated: isValidToken(authState.token),
-  });
-};
+export const selectLoginFlowState = createSelector(
+  selectAuthState,
+  state => ({
+    token: state.token,
+    loggingIn: state.loggingIn,
+    loginError: state.loginError,
+  })
+);
 
-function isValidToken(token) {
-  // TODO: Validate token
-  return !!token;
-}
+export const selectAuthToken = createSelector(
+  selectAuthState,
+  state => state.token,
+);
