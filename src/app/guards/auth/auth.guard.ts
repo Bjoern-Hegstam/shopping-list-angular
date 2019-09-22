@@ -3,7 +3,7 @@ import { ActivatedRouteSnapshot, CanActivate, CanActivateChild, Router, RouterSt
 import { AuthService } from '../../services/auth.service';
 import { select, Store } from '@ngrx/store';
 import { AuthStoreSelectors, RootStoreState } from '../../root-store';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { AppRoute } from '../../constants/app-routes';
 
@@ -29,6 +29,7 @@ export class AuthGuard implements CanActivate, CanActivateChild {
       .store$
       .pipe(
         select(AuthStoreSelectors.selectIsAuthenticated),
+        take(1),
         map(state => {
           if (state.isAuthenticated) {
             return true;
