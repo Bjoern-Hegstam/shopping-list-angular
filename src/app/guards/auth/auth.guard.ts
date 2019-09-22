@@ -1,35 +1,43 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, CanActivateChild, Router, RouterStateSnapshot } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { select, Store } from '@ngrx/store';
+import { AuthStoreSelectors, RootStoreState } from '../../root-store';
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { AppRoute } from '../../constants/app-routes';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class AuthGuard implements CanActivate, CanActivateChild {
   constructor(
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private store$: Store<RootStoreState.State>,
   ) {
   }
 
-  canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot | { url: string }): boolean {
+  canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot | { url: string }): Observable<boolean> {
     return this.checkLogin(state.url);
   }
 
-  canActivateChild(route: ActivatedRouteSnapshot, state: RouterStateSnapshot | { url: string }): boolean {
+  canActivateChild(route: ActivatedRouteSnapshot, state: RouterStateSnapshot | { url: string }): Observable<boolean> {
     return this.canActivate(route, state);
   }
 
-  checkLogin(url: string): boolean {
-    if (this.authService.isLoggedIn()) {
-      return true;
-    }
-
-    // Store the attempted URL for redirecting
-    this.authService.redirectUrl = url;
-
-    // Navigate to the login page
-    this.router.navigate(['/']);
-    return false;
+  checkLogin(url: string): Observable<boolean> {
+    return this
+      .store$
+      .pipe(
+        select(AuthStoreSelectors.selectIsAuthenticated),
+        map(state => {
+          if (state.isAuthenticated) {
+            return true;
+          } else {
+            this.authService.redirectUrl = url; // Store the attempted URL for redirecting
+            this.router.navigate([AppRoute.LOGIN]);
+            return false;
+          }
+        }),
+      );
   }
 }

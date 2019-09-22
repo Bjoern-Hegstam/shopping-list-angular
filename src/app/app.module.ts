@@ -9,6 +9,8 @@ import { AuthGuard } from './guards/auth/auth.guard';
 import { AuthService } from './services/auth.service';
 import { HeaderComponent } from './components/header/header.component';
 import { NavigationComponent } from './components/navigation/navigation.component';
+import { ApiService } from './services/api.service';
+import { RootStoreModule } from './root-store';
 
 @NgModule({
   declarations: [
@@ -17,14 +19,16 @@ import { NavigationComponent } from './components/navigation/navigation.componen
     NavigationComponent,
   ],
   imports: [
+    RootStoreModule,
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   providers: [
     AuthGuard,
     AuthService,
+    ApiService,
   ],
   bootstrap: [AppComponent]
 })
